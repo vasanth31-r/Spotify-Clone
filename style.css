@@ -78,9 +78,9 @@ nav ul{
 .songItem{
     height: 50px;
     display: flex;
-    background-color: white;
+    background-color: rgb(151, 44, 44);
     
-    color: black;
+    color: rgb(161, 152, 152);
     margin: 12px 0;
     justify-content: space-between;
     align-items: center;
