@@ -8,18 +8,30 @@ let masterSongName = document.getElementById('masterSongName');
 let songItems = Array.from(document.getElementsByClassName('songItem'));
 
 let songs = [
-    // ... (your song data)
+    // Example:
+    // {songName: "Song 1", filePath: "songs/1.mp3", coverPath: "covers/1.jpg"},
+    // Add your full song list here
 ];
+
+// Function to remove active class from all song items
+const removeActiveHighlights = () => {
+    songItems.forEach(item => item.classList.remove('active'));
+};
+
+// Function to highlight currently playing song
+const highlightCurrentSong = () => {
+    removeActiveHighlights();
+    songItems[songIndex].classList.add('active');
+};
 
 // Function to play the next song
 const playNextSong = () => {
     if (songIndex < songs.length - 1) {
         songIndex++;
-        playSong();
     } else {
         songIndex = 0; // Loop back to the first song
-        playSong();
     }
+    playSong();
 };
 
 // Function to play a specific song
@@ -31,6 +43,7 @@ const playSong = () => {
     masterPlay.classList.remove('fa-play-circle');
     masterPlay.classList.add('fa-pause-circle');
     gif.style.opacity = 1;
+    highlightCurrentSong(); // <-- highlight the active song
 };
 
 // Handle play/pause click
@@ -48,13 +61,12 @@ masterPlay.addEventListener('click', () => {
 // Listen to the 'ended' event for playing the next song
 audioElement.addEventListener('ended', playNextSong);
 
-// ... (your existing event listeners)
-
 // Function to initialize song items
 const initializeSongItems = () => {
     songItems.forEach((element, i) => {
         element.getElementsByTagName("img")[0].src = songs[i].coverPath;
         element.getElementsByClassName("songName")[0].innerText = songs[i].songName;
+
         element.getElementsByClassName("songItemPlay")[0].addEventListener('click', (e) => {
             makeAllPlays();
             songIndex = i;
@@ -65,12 +77,13 @@ const initializeSongItems = () => {
     });
 };
 
-// Function to make all plays inactive
+// Function to reset all play icons
 const makeAllPlays = () => {
     Array.from(document.getElementsByClassName('songItemPlay')).forEach((element) => {
         element.classList.remove('fa-pause-circle');
         element.classList.add('fa-play-circle');
     });
+    removeActiveHighlights(); // Remove highlights from all songs
 };
 
 // Initialize song items
